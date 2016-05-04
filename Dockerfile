@@ -9,18 +9,18 @@ RUN apt-get -y update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
+    rm -rf /etc/nginx/sites-enabled/* && \
     chown -R www-data:www-data /var/www
 
 # Define mountable directories.
-VOLUME [ "/etc/nginx/certs", "/etc/nginx/conf.d", "/etc/nginx/sites-available", "/etc/nginx/sites-enabled", "/etc/php/7.0/cli", "/etc/php/7.0/fpm" "/var/log", "/var/www" ]
+VOLUME [ "/etc/nginx/certs", "/etc/nginx/conf.d", "/etc/nginx/sites-enabled", "/etc/php/7.0/cli", "/etc/php/7.0/fpm" "/var/log", "/var/www" ]
 
 # nginx
-# COPY nginx/certs           /etc/nginx/certs
-# COPY nginx/nginx.conf      /etc/nginx/nginx.conf
-# COPY nginx/conf.d          /etc/nginx/conf.d
-# COPY nginx/sites-available /etc/nginx/sites-available
-# COPY nginx/sites-enabled   /etc/nginx/sites-enabled
-COPY www                   /var/www
+# COPY nginx/certs            /etc/nginx/certs
+# COPY nginx/nginx.conf       /etc/nginx/nginx.conf
+# COPY nginx/conf.d           /etc/nginx/conf.d
+COPY nginx/sites-enabled*   /etc/nginx/sites-enabled/
+COPY www                    /var/www
 
 # php
 COPY php/fpm/conf.d/10-opcache.ini /etc/php/7.0/fpm/conf.d/10-opcache.ini
