@@ -1,0 +1,37 @@
+version: '2'
+services:
+  app:
+    build: php/.
+    volumes:
+     - ./www:/var/www
+  proxy:
+    build: nginx/.
+    volumes_from:
+      - app
+    depends_on:
+     - app
+    ports:
+     - "80:80"
+     - "443:443"
+# version: "2"
+# services:
+#   nginx:
+#     build:
+#       context: .
+#       dockerfile: nginx/Dockerfile
+#     ports:
+#       - "80:80"
+#     links:
+#       - fpm
+#     volumes_from:
+#       - data
+#   fpm:
+#     image: php:fpm
+#     volumes_from:
+#       - data
+#   data:
+#     build:
+#       context: .
+#       dockerfile: data/Dockerfile
+#     volumes:
+#       - /var/www/html
